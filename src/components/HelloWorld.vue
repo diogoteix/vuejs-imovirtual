@@ -22,7 +22,7 @@ export default {
   },
   mounted () {
     axios
-      .get('https://api-imovirtual.herokuapp.com/?startDate=1543148511&endDate=1543622400')
+      .get('https://api-imovirtual.herokuapp.com/?startDate=1543148511&endDate=' + Date.now())
       .then(response => {
         this.values = response.data
         console.log(this.values)
