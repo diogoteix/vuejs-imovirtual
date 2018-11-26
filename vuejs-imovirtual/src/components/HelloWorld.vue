@@ -1,12 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <div v-for="value in values" :key="value.date" >
-      <span>{{ value.value }}</span>
-    </div>
-
-    <Graph :data={values}></Graph>
+    <Graph v-if="!loading && values.length > 0" :data={values}></Graph>
   </div>
 </template>
 
