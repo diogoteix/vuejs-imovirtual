@@ -3,7 +3,15 @@ import { Line } from 'vue-chartjs'
 
 export default {
   extends: Line,
-  props: ['data'],
+  props: ['values'],
+  data () {
+    return {
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    }
+  },
   methods: {
     getFormattedDate: function (date) {
       var dd = date.getDate()
@@ -21,30 +29,30 @@ export default {
   },
   mounted () {
     // Overwriting base render method with actual data.
-    console.log(this.data.values)
+    console.log(this.values)
     this.renderChart({
-      labels: this.data.values.map(a => this.getFormattedDate(new Date(a.date))),
+      labels: this.values.map(a => this.getFormattedDate(new Date(a.date))),
       datasets: [
         {
           label: 'Preço Médio',
           borderColor: '#0099ff',
           backgroundColor: 'rgba(0, 153, 255, 0.2)',
-          data: this.data.values.map(a => a.median)
+          data: this.values.map(a => a.median)
         },
         {
           label: 'Preço Máximo',
           borderColor: '#ff0000',
           backgroundColor: 'rgba(255, 0, 0, 0.1)',
-          data: this.data.values.map(a => a.max)
+          data: this.values.map(a => a.max)
         },
         {
           label: 'Preço Mínimo',
           borderColor: '#33cc33',
           backgroundColor: 'rgba(51, 204, 51, 0.5)',
-          data: this.data.values.map(a => a.min)
+          data: this.values.map(a => a.min)
         }
       ]
-    })
+    }, this.options)
   }
 }
 </script>

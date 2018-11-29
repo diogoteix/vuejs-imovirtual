@@ -1,7 +1,11 @@
 <template>
   <div class="hello">
-    <h2>Essential Links</h2>
-    <Graph v-if="!loading && values.length > 0" :data={values}></Graph>
+    <h2>Imovirtual</h2>
+    <Graph :styles="myStyles" v-if="!loading && imovirtual.length > 0" v-bind:values="imovirtual"></Graph>
+
+    <h2>Idealista</h2>
+    <Graph :styles="myStyles" v-if="!loading && idealista.length > 0" v-bind:values="idealista"></Graph>
+
   </div>
 </template>
 
@@ -17,21 +21,37 @@ export default {
   data () {
     return {
       values: [],
-      loading: true
+      loading: true,
+      idealista: [],
+      imovirtual: []
     }
   },
   mounted () {
     axios
-      .get('https://api-imovirtual.herokuapp.com/?startDate=1543148511&endDate=' + Date.now())
+      .get('https://api-imovirtual.herokuapp.com/?startDate=1543148511&endDate=1543234911')
       .then(response => {
         this.values = response.data
         console.log(this.values)
+        this.imovirtual = this.values.filter(obj => {
+          return obj.source === 'imovirtual'
+        })
+        this.idealista = this.values.filter(obj => {
+          return obj.source === 'idealista'
+        })
       })
       .catch(error => {
         console.log(error)
         this.errored = true
       })
       .finally(() => { this.loading = false })
+  },
+  computed: {
+    myStyles () {
+      return {
+        height: `400px`,
+        position: 'relative'
+      }
+    }
   }
 }
 </script>
